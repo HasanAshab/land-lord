@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LandLord</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>LandLord</h1>
+
+  <!-- Hasan's Profile -->
+  <div class="profile" id="hasan-profile">
+    <h2>Hasan: <span id="hasan-rent">-1000$</span></h2>
+    <p>Total Land: <span id="hasan-total-land">8 x 8 (+11)</span></p>
+    <p>Owned: <span id="hasan-owned">5 x 5</span>
+      <span class="button-group">
+        <button onclick="openModal('buy')">Add</button>
+        <button onclick="openModal('sell')">Sell</button>
+      </span>
+    </p>
+    <p>Rented: <span id="hasan-rented">10 x 10</span>
+      <span class="button-group">
+        <button onclick="openModal('discard')">Discard</button>
+      </span>
+    </p>
+  </div>
+
+  <!-- Hossain's Profile -->
+  <div class="profile" id="hossain-profile">
+    <h2>Hossain: <span id="hossain-rent">-500$</span></h2>
+    <p>Total Land: <span id="hossain-total-land">5 x 5</span></p>
+    <p>Owned: <span id="hossain-owned">--</span>
+      <span class="button-group">
+        <button onclick="openModal('buy')">Add</button>
+        <button disabled>Sell</button>
+      </span>
+    </p>
+    <p>Rented: <span id="hossain-rented">5 x 5</span>
+      <span class="button-group">
+        <button onclick="openModal('discard')">Discard</button>
+      </span>
+    </p>
+  </div>
+
+  <!-- Modal for buy/sell/discard -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title">How much block?</h2>
+      <div class="block-counter">
+        <button onclick="adjustBlockCount(-1)">-</button>
+        <span id="block-count">X</span>
+        <button onclick="adjustBlockCount(1)">+</button>
+      </div>
+      <p id="block-details">~ X x X (+Y)</p>
+      <p id="cost-details">Cost: xxxx$</p>
+      <button id="action-btn" onclick="executeAction()">Action</button>
+    </div>
+  </div>
+<script src="scripts.js"></script>
+</body>
+</html>
