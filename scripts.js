@@ -37,30 +37,26 @@ function adjustBlockCount(amount, action) {
 }
 
 
-function closestSquare(num) {
-    return Math.floor(Math.sqrt(num));
-}
-
 function pretifyBlockCount(totalBlocks) {
-    const cs = closestSquare(totalBlocks);
-    const remainingBlocks = totalBlocks - cs * cs;
-    return remainingBlocks === 0
-        ? `${cs} x ${cs}`
-        : `${cs} x ${cs} (+${remainingBlocks})`;
+    const m = totalBlocks % 5
+    const remain = totalBlocks - m
+    return m === 0
+        ? 0
+        : `5<sup>2</sup> x ${m} (+${remain})`
 }
 
 function landProfileOf(name) {
     profile = localStorage.getItem(name)
 
     console.log(profile);
-    
+
     return profile
         ? JSON.parse(profile)
         : DEFAULT_PROFILE;
 }
 
 function updateProfileOf(name, profile) {
-   localStorage.setItem(name, JSON.stringify(profile));
+    localStorage.setItem(name, JSON.stringify(profile));
 }
 
 class LandPriceCalculator {
@@ -125,23 +121,23 @@ function executeAction(action, name) {
 function enableEditing() {
     const blockCountSpan = document.getElementById('block-count');
     const currentCount = blockCountSpan.innerText;
-    
+
     // Create an input field and set its value to the current block count
     const inputField = document.createElement('input');
     inputField.type = 'number';
     inputField.value = currentCount;
     inputField.min = 1;
     inputField.style.width = '50px'; // Adjust the width if needed
-    
+
     // Replace the span with the input field
     blockCountSpan.replaceWith(inputField);
-    
+
     // Focus the input field for immediate editing
     inputField.focus();
-    
+
     // Handle when the user presses Enter or clicks outside the input field
     inputField.addEventListener('blur', saveBlockCount);
-    inputField.addEventListener('keypress', function(event) {
+    inputField.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
             saveBlockCount();
         }
@@ -151,7 +147,7 @@ function enableEditing() {
 function saveBlockCount() {
     const inputField = document.querySelector('#modal input[type="number"]');
     let newBlockCount = parseInt(inputField.value);
-    
+
     // Ensure the block count is at least 1
     if (isNaN(newBlockCount) || newBlockCount < 1) {
         newBlockCount = 1;
@@ -164,10 +160,10 @@ function saveBlockCount() {
     blockCountSpan.id = 'block-count';
     blockCountSpan.innerText = newBlockCount;
     blockCountSpan.setAttribute('onclick', 'enableEditing()');
-    
+
     // Replace the input field with the updated span
     inputField.replaceWith(blockCountSpan);
-    
+
     // Update the block details based on the new block count
     updateBlockDetails();
 }
