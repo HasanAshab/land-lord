@@ -7,6 +7,9 @@ let blockCount = DEFAULT_BLOCK_COUNT
 
 let _action = "buy"
 
+localStorage.setItem("hasan", JSON.stringify(DEFAULT_PROFILE));
+localStorage.setItem("hossain", JSON.stringify(DEFAULT_PROFILE));
+
 function openModal(action, name) {
     _action = action
     const actionBtn = document.getElementById('action-btn');
@@ -57,7 +60,7 @@ function landProfileOf(name) {
 }
 
 function updateProfileOf(name, profile) {
-    localStorage.setItem(name, JSON.stringify(profile));
+   localStorage.setItem(name, JSON.stringify(profile));
 }
 
 class LandPriceCalculator {
@@ -101,25 +104,21 @@ function updateBlockDetails() {
 
 // Function to handle modal actions (buy, sell, discard)
 function executeAction(action, name) {
+    console.log(action)
+    const profile = landProfileOf(name);
     if (action === 'buy') {
-        const profile = landProfileOf(name);
+        console.log(blockCount)
         profile.owned += blockCount;
-        updateProfileOf(name, profile);
     } else if (action === 'sell') {
-        const profile = landProfileOf(name);
         profile.owned -= blockCount;
-        updateProfileOf(name, profile);
     } else if (action === 'rent') {
-        const profile = landProfileOf(name);
         profile.rented += blockCount;
-        updateProfileOf(name, profile);
     } else if (action === 'discard') {
-        const profile = landProfileOf(name);
         profile.rented -= blockCount;
-        updateProfileOf(name, profile);
     }
-    closeModal();
+    updateProfileOf(name, profile);
     loadProfileOf(name);
+    closeModal();
 }
 
 
