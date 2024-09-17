@@ -29,6 +29,7 @@ function closeModal() {
     document.getElementById('cost-details').style.color = 'red';
 }
 
+
 function adjustBlockCount(amount, action) {
     blockCount += amount;
     if (blockCount < 1) blockCount = 1; // Minimum block count is 1
@@ -38,11 +39,14 @@ function adjustBlockCount(amount, action) {
 
 
 function pretifyBlockCount(totalBlocks) {
+    if (totalBlocks < 25) return "";
     const nearestMultipleOfFive = Math.floor(totalBlocks / 25);
-    const remainingBlocks = totalBlocks - (nearestMultipleOfFive * nearestMultipleOfFive);
-    return nearestMultipleOfFive === 0
-        ? 0
-        : `5<sup>2</sup> x ${nearestMultipleOfFive} (+${remainingBlocks})`
+    const remainingBlocks = totalBlocks - (25 * nearestMultipleOfFive);
+    console.log(totalBlocks);
+    
+    return remainingBlocks === 0
+        ? `~ 5<sup>2</sup> x ${nearestMultipleOfFive}`
+        : `~ 5<sup>2</sup> x ${nearestMultipleOfFive} (+${remainingBlocks})`
 }
 
 function landProfileOf(name) {
@@ -83,7 +87,7 @@ const lPCalc = new LandPriceCalculator(200);
 // Function to update modal block details
 function updateBlockDetails() {
     let costDetails;
-    document.getElementById('block-details').innerHTML = `~ ${pretifyBlockCount(blockCount)}`;
+    document.getElementById('block-details').innerHTML = pretifyBlockCount(blockCount);
     if (_action === 'buy') {
         const cost = lPCalc.purchasingPrice(blockCount);
         costDetails = `Cost: ${cost}$`;
