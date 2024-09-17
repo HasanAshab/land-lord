@@ -38,7 +38,7 @@ function adjustBlockCount(amount, action) {
 
 
 function pretifyBlockCount(totalBlocks) {
-    const m = totalBlocks % 5
+    const m = totalBlocks / 25
     const remain = totalBlocks - m
     return m === 0
         ? 0
@@ -82,20 +82,22 @@ const lPCalc = new LandPriceCalculator(200);
 
 // Function to update modal block details
 function updateBlockDetails() {
+    let costDetails;
     document.getElementById('block-details').innerText = `~ ${pretifyBlockCount(blockCount)}`;
     if (_action === 'buy') {
         const cost = lPCalc.purchasingPrice(blockCount);
-        document.getElementById('cost-details').innerText = `Cost: ${cost}$`;
+        costDetails = `Cost: ${cost}$`;
     } else if (_action === 'rent') {
         const cost = lPCalc.rentingPrice(blockCount);
-        document.getElementById('cost-details').innerText = `Cost: ${cost}$/Month`;
+        costDetails = `Cost: ${cost}$/Month`;
     } else if (_action === 'sell') {
         const cost = lPCalc.sellingPrice(blockCount);
-        document.getElementById('cost-details').innerText = `Cost: ${cost}$`;
+        costDetails = `Cost: ${cost}$`;
         document.getElementById('cost-details').style.color = 'green';
     } else if (_action === 'discard') {
         document.getElementById('cost-details').style.display = 'none';
     }
+    document.getElementById('cost-details').innerHTML = costDetails
 }
 
 // Function to handle modal actions (buy, sell, discard)
