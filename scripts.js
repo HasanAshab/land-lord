@@ -5,22 +5,25 @@ const DEFAULT_PROFILE = {
 const DEFAULT_BLOCK_COUNT = 25;
 let blockCount = DEFAULT_BLOCK_COUNT
 
-let _action = "buy"
+let _action, _name;
+const actionBtn = document.getElementById('action-btn');
+
 
 localStorage.setItem("hasan", JSON.stringify(DEFAULT_PROFILE));
 localStorage.setItem("hossain", JSON.stringify(DEFAULT_PROFILE));
 
+
 function openModal(action, name) {
     _action = action
-    const actionBtn = document.getElementById('action-btn');
+    _name = name
     document.getElementById('block-count').innerText = DEFAULT_BLOCK_COUNT;
     document.getElementById('modal-title').innerText = action === 'buy' ? 'How much block?' : 'Confirm action';
     document.getElementById('modal').style.display = 'block';
 
     actionBtn.innerText = action;
-    actionBtn.addEventListener('click', () => executeAction(action, name));
     updateBlockDetails(action);
 }
+actionBtn.addEventListener('click', () => executeAction(_action, _name));
 
 function closeModal() {
     blockCount = DEFAULT_BLOCK_COUNT
@@ -42,17 +45,14 @@ function pretifyBlockCount(totalBlocks) {
     if (totalBlocks < 25) return "";
     const nearestMultipleOfFive = Math.floor(totalBlocks / 25);
     const remainingBlocks = totalBlocks - (25 * nearestMultipleOfFive);
-    console.log(totalBlocks);
     
     return remainingBlocks === 0
-        ? `~ 5<sup>2</sup> x ${nearestMultipleOfFive}`
-        : `~ 5<sup>2</sup> x ${nearestMultipleOfFive} (+${remainingBlocks})`
+        ? `~${nearestMultipleOfFive}~`
+        : `~${nearestMultipleOfFive}~ (+${remainingBlocks})`
 }
 
 function landProfileOf(name) {
     profile = localStorage.getItem(name)
-
-    console.log(profile);
 
     return profile
         ? JSON.parse(profile)
@@ -106,10 +106,8 @@ function updateBlockDetails() {
 
 // Function to handle modal actions (buy, sell, discard)
 function executeAction(action, name) {
-    console.log(action)
     const profile = landProfileOf(name);
     if (action === 'buy') {
-        console.log(blockCount)
         profile.owned += blockCount;
     } else if (action === 'sell') {
         profile.owned -= blockCount;
@@ -177,6 +175,8 @@ function saveBlockCount() {
 
 function loadProfileOf(name) {
     const profile = landProfileOf(name);
+    console.log(profile);
+    
     document.getElementById(`${name}-owned`).innerHTML = pretifyBlockCount(profile.owned);
     document.getElementById(`${name}-rented`).innerHTML = pretifyBlockCount(profile.rented);
     document.getElementById(`${name}-total-land`).innerHTML = pretifyBlockCount(profile.owned + profile.rented);
