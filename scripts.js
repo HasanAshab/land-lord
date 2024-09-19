@@ -9,10 +9,6 @@ let _action, _name;
 const actionBtn = document.getElementById('action-btn');
 
 
-localStorage.setItem("hasan", JSON.stringify(DEFAULT_PROFILE));
-localStorage.setItem("hossain", JSON.stringify(DEFAULT_PROFILE));
-
-
 function openModal(action, name) {
     _action = action
     _name = name
